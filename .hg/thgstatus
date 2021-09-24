@@ -1,0 +1,13 @@
+m.idea
+rNews
+rNews/src/main/java/controller
+rNews/src/main/java/controller/interfaces
+rNews/target/classes/controller
+rNews/target/classes/controller/interfaces
+rapi
+rapi/src/main/java
+rapi/src/test/java
+rapi/target/classes
+rapi/target/test-classes
+rmodel/src/main/java
+rmodel/target/classes/entity/interfaces
