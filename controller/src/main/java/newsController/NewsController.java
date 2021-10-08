@@ -1,36 +1,36 @@
 package newsController;
 
-import categoryController.NewsCategory;
+import model.IModel;
+import newsdto.NewsAuthorDTO;
+import newsdto.NewsDescriptionDTO;
+import newsdto.NewsListDTO;
+import newsdto.SportNewsTitleDTO;
 
+import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
 
 public class NewsController implements INewsController {
-    public List<News> news = new ArrayList<>();
+    @Inject
+    IModel model;
 
     @Override
-    public List<News> getNewsList() {
-        return news;
+    public NewsListDTO getNewsList() {
+        return model.getNewsDao().getAll();
     }
 
     @Override
-    public News getNewsById(Integer id) {
-        for (News curNews: news){
-            if (curNews.getId().equals(id)){
-                return curNews;
-            }
-        }
-
-        return null;
+    public News getNewsById(long id) {
+        return model.getNewsDao().get(id);
     }
 
     @Override
     public void addNews(News addNews) {
-        news.add(addNews);
+        model.getNewsDao().add();
     }
 
     @Override
-    public void refreshNews(Integer id, String newName) {
+    public void refreshNews(long id, String newName) {
         for (News curNews: news) {
             if (curNews.getId().equals(id)) {
                 curNews.setName(newName);
@@ -39,7 +39,22 @@ public class NewsController implements INewsController {
     }
 
     @Override
-    public void deleteNews(Integer id) {
+    public void deleteNews(long id) {
         news.removeIf(news1 -> news1.getId().equals(id));
+    }
+
+    @Override
+    public NewsDescriptionDTO getNewsDescription(News news) {
+        return null;
+    }
+
+    @Override
+    public NewsAuthorDTO getNewsAuthor(News news) {
+        return null;
+    }
+
+    @Override
+    public SportNewsTitleDTO getSportNewsTitle(News news) {
+        return null;
     }
 }

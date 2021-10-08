@@ -1,6 +1,7 @@
 package categoryController;
 
 import cache.Cache;
+import categorydto.CategoryWithNewsDTO;
 
 import java.util.List;
 
@@ -25,5 +26,10 @@ public class CategoryController implements ICategoryController{
     @Override
     public void deleteCategory(Integer id) {
         cache.deleteCategory(id);
+    }
+
+    @Override
+    public CategoryWithNewsDTO getCategoryWithNews(List<NewsCategory> categories) {
+        return null;
     }
 }
