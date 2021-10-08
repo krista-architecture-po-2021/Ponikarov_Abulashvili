@@ -1,6 +1,7 @@
 package newsController;
 
 import model.IModel;
+import model.ModelFactory;
 import newsdto.NewsAuthorDTO;
 import newsdto.NewsDescriptionDTO;
 import newsdto.NewsListDTO;
@@ -12,35 +13,31 @@ import java.util.List;
 
 public class NewsController implements INewsController {
     @Inject
-    IModel model;
+    ModelFactory model;
 
     @Override
     public NewsListDTO getNewsList() {
-        return model.getNewsDao().getAll();
+        return null;
     }
 
     @Override
     public News getNewsById(long id) {
-        return model.getNewsDao().get(id);
+        return null;
     }
 
     @Override
     public void addNews(News addNews) {
-        model.getNewsDao().add();
+
     }
 
     @Override
     public void refreshNews(long id, String newName) {
-        for (News curNews: news) {
-            if (curNews.getId().equals(id)) {
-                curNews.setName(newName);
-            }
-        }
+
     }
 
     @Override
     public void deleteNews(long id) {
-        news.removeIf(news1 -> news1.getId().equals(id));
+
     }
 
     @Override

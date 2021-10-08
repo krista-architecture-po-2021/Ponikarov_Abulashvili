@@ -31,7 +31,7 @@ public class NewsService {
     }
 
     public List<News> getNewsList(){
-        return newsController.getNewsList();
+        return null;
     }
 
     public News getNewsById(Integer id){
