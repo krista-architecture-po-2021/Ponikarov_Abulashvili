@@ -8,6 +8,7 @@ import entity.News;
 import entity.NewsCategory;
 
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.List;
 import java.util.Objects;
@@ -80,8 +81,8 @@ public class JsonNewsDao implements INewsDao {
 
     private List<News> readNews(){
         try {
-            return objectMapper.readValue(filePath, new TypeReference<List<News>>() {});
-        } catch (JsonProcessingException e) {
+            return objectMapper.readValue(new File(filePath), new TypeReference<List<News>>() {});
+        } catch (IOException e) {
             e.printStackTrace();
         }
 
@@ -89,8 +90,8 @@ public class JsonNewsDao implements INewsDao {
     }
 
     private void writeNews(List<News> news){
-        try {
-            objectMapper.writeValue(new File(filePath), news);
+        try (FileWriter fileWriter = new FileWriter("news.json", false)){
+            fileWriter.write(objectMapper.writeValueAsString(news));
         } catch (IOException e) {
             e.printStackTrace();
         }
