@@ -3,15 +3,15 @@ package jsondao;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import dao.INewsCategoryDao;
-import entity.NewsCategory;
+import dao.Dao;
+import entity.Categories;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
 import java.util.Objects;
 
-public class JsonCategoryDao implements INewsCategoryDao {
+public class JsonCategoryDao implements Dao<Categories> {
     ObjectMapper objectMapper;
 
     private static final String filePath = "categories.json";
@@ -21,11 +21,11 @@ public class JsonCategoryDao implements INewsCategoryDao {
     }
 
     @Override
-    public NewsCategory get(int id) {
-        List<NewsCategory> categories = readCategories();
+    public Categories get(int id) {
+        List<Categories> categories = readCategories();
 
         if (categories != null) {
-            for (NewsCategory category : categories) {
+            for (Categories category : categories) {
                 if (Objects.equals(category.getId(), id)) {
                     return category;
                 }
@@ -36,13 +36,13 @@ public class JsonCategoryDao implements INewsCategoryDao {
     }
 
     @Override
-    public List<NewsCategory> getAll() {
+    public List<Categories> getAll() {
         return readCategories();
     }
 
     @Override
-    public void add(NewsCategory category) {
-        List<NewsCategory> categories = readCategories();
+    public void add(Categories category) {
+        List<Categories> categories = readCategories();
 
         if (categories != null){
             categories.add(category);
@@ -53,10 +53,10 @@ public class JsonCategoryDao implements INewsCategoryDao {
 
     @Override
     public void update(int id, String name) {
-        List<NewsCategory> categories = readCategories();
+        List<Categories> categories = readCategories();
 
         if (categories != null){
-            for (NewsCategory category: categories){
+            for (Categories category: categories){
                 if (Objects.equals(category.getId(), id)) {
                     category.setName(name);
                 }
@@ -68,7 +68,7 @@ public class JsonCategoryDao implements INewsCategoryDao {
 
     @Override
     public void delete(int id) {
-        List<NewsCategory> categories = readCategories();
+        List<Categories> categories = readCategories();
 
         if (categories != null) {
             categories.removeIf(category -> Objects.equals(category.getId(), id));
@@ -77,9 +77,9 @@ public class JsonCategoryDao implements INewsCategoryDao {
         }
     }
 
-    private List<NewsCategory> readCategories(){
+    private List<Categories> readCategories(){
         try {
-            return objectMapper.readValue(filePath, new TypeReference<List<NewsCategory>>() {});
+            return objectMapper.readValue(filePath, new TypeReference<List<Categories>>() {});
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }
@@ -87,7 +87,7 @@ public class JsonCategoryDao implements INewsCategoryDao {
         return null;
     }
 
-    private void writeCategories(List<NewsCategory> categories){
+    private void writeCategories(List<Categories> categories){
         try {
             objectMapper.writeValue(new File(filePath), categories);
         } catch (IOException e) {

@@ -1,26 +1,25 @@
 package arraydao;
 
-import dao.INewsCategoryDao;
-import entity.NewsCategory;
+import dao.Dao;
+import entity.Categories;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
-public class ArrayCategoryDao implements INewsCategoryDao {
-    List<NewsCategory> categories;
+public class ArrayCategoryDao implements Dao<Categories> {
+    List<Categories> categories;
 
     public ArrayCategoryDao(){
-        categories = new ArrayList<>(Arrays.asList(new NewsCategory(1, "Спорт"),
-                new NewsCategory(2, "Политика")));
+        categories = new ArrayList<>();
     }
 
     @Override
-    public NewsCategory get(int id) {
-        for (NewsCategory newsCategory: categories){
-            if (Objects.equals(newsCategory.getId(), id)){
-                return newsCategory;
+    public Categories get(int id) {
+        for (Categories categories : this.categories){
+            if (Objects.equals(categories.getId(), id)){
+                return categories;
             }
         }
 
@@ -28,20 +27,20 @@ public class ArrayCategoryDao implements INewsCategoryDao {
     }
 
     @Override
-    public List<NewsCategory> getAll() {
+    public List<Categories> getAll() {
         return categories;
     }
 
     @Override
-    public void add(NewsCategory category) {
+    public void add(Categories category) {
         categories.add(category);
     }
 
     @Override
     public void update(int id, String name) {
-        for (NewsCategory newsCategory: categories){
-            if (Objects.equals(newsCategory.getId(), id)){
-                newsCategory.setName(name);
+        for (Categories categories : this.categories){
+            if (Objects.equals(categories.getId(), id)){
+                categories.setName(name);
             }
         }
     }

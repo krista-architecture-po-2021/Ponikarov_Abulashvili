@@ -1,11 +1,9 @@
 package jsondao;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import dao.INewsDao;
+import dao.Dao;
 import entity.News;
-import entity.NewsCategory;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -13,7 +11,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Objects;
 
-public class JsonNewsDao implements INewsDao {
+public class JsonNewsDao implements Dao<News> {
     ObjectMapper objectMapper;
 
     private static final String filePath = "news.json";

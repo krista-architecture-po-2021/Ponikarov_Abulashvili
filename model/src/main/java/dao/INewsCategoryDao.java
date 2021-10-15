@@ -1,15 +1,15 @@
 package dao;
 
-import entity.NewsCategory;
+import entity.Categories;
 
 import java.util.List;
 
 public interface INewsCategoryDao {
-    NewsCategory get(int id);
+    Categories get(int id);
 
-    List<NewsCategory> getAll();
+    List<Categories> getAll();
 
-    void add(NewsCategory category);
+    void add(Categories category);
 
     void update(int id, String name);
 

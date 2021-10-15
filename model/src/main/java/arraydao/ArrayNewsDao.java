@@ -1,5 +1,6 @@
 package arraydao;
 
+import dao.Dao;
 import dao.INewsDao;
 import entity.News;
 
@@ -8,7 +9,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
-public class ArrayNewsDao implements INewsDao {
+public class ArrayNewsDao implements Dao<News> {
     List<News> newsList;
 
     public ArrayNewsDao() {
