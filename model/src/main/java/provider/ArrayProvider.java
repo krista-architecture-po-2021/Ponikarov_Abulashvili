@@ -2,13 +2,14 @@ package provider;
 
 import entity.IEntity;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class ArrayProvider implements IProvider {
 
-
     @Override
-    public <T> T get(String entityName, int id) {
+    public <T extends IEntity> T get(String entityName, int id) {
         return null;
     }
 
@@ -23,12 +24,12 @@ public class ArrayProvider implements IProvider {
     }
 
     @Override
-    public <T> void update(String entityName, T entity) {
+    public <T extends IEntity> void update(String entityName, T entity) {
 
     }
 
     @Override
-    public void delete(String entityName, int id) {
+    public <T extends IEntity> void delete(String entityName, int id) {
 
     }
 }
