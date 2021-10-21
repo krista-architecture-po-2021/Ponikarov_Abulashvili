@@ -1,6 +1,6 @@
 package entity;
 
-public class News implements IEntity {
+public class News {
     private int id;
     private String name;
     private String content;
@@ -15,22 +15,18 @@ public class News implements IEntity {
         this.content = content;
     }
 
-    @Override
     public String getName() {
         return name;
     }
 
-    @Override
     public void setName(String name) {
         this.name = name;
     }
 
-    @Override
     public int getId() {
         return id;
     }
 
-    @Override
     public void setId(int id) {
         this.id = id;
     }

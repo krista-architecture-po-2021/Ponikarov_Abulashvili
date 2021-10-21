@@ -7,9 +7,9 @@ public interface Dao <T> {
 
     List<T> getAll();
 
-    void add(T category);
+    void add(T entity);
 
-    void update(int id, String name);
+    void update(int id, T entity);
 
     void delete(int id);
 }

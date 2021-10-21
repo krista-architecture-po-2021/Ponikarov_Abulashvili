@@ -2,8 +2,7 @@ package provider;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import entity.Categories;
-import entity.IEntity;
+import entity.Category;
 import entity.News;
 
 import java.io.File;
@@ -13,23 +12,19 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class JSonProvider implements IProvider{
+public class JsonProvider implements IProvider{
     ObjectMapper objectMapper;
 
-    public JSonProvider(){
+    public JsonProvider(){
         objectMapper = new ObjectMapper();
     }
 
     @Override
-    public <T extends IEntity> T get(String entityName, int id) {
+    public <T> T get(String entityName, int id) {
         List<T> entities = readJson(entityName);
 
         if (entities != null) {
-            for (T entity : entities) {
-                if (Objects.equals(entity.getId(), id)) {
-                    return entity;
-                }
-            }
+            return getElementById(entities, id, entityName);
         }
 
         return null;
@@ -54,36 +49,26 @@ public class JSonProvider implements IProvider{
     }
 
     @Override
-    public <T extends IEntity> void update(String entityName, T entity) {
+    public <T> void update(String entityName, int id, T entity) {
         List<T> entities = readJson(entityName);
 
-        if (entities != null){
-            for (T curEntity: entities){
-                if (Objects.equals(curEntity.getId(), entity.getId())) {
-                    curEntity.setName(entity.getName());
-
-                    if ("news".equals(entityName)){
-                        News curNews = (News)curEntity;
-                        curNews.setContent(((News)entity).getContent());
-                    }
-                }
-            }
-
-            writeJson(entities, entityName);
-        }
     }
 
     @Override
-    public <T extends IEntity> void delete(String entityName, int id) {
-        List<T> entities = readJson(entityName);
+    public void delete(String entityName, int id) {
 
-        if (entities != null) {
-            entities.removeIf(entity -> Objects.equals(entity.getId(), id));
-
-            writeJson(entities, entityName);
-        }
     }
 
+    private <T> T getElementById(List<T> elements, int id, String entityName){
+        for (T element: elements){
+            if (("news".equals(entityName) && Objects.equals(((News)element).getId(), id)) ||
+                    ("categories".equals(entityName) && Objects.equals(((Category)element).getId(), id))){
+                return element;
+            }
+        }
+
+        return null;
+    }
 
     private <T> List<T> readJson(String filePath){
         try {

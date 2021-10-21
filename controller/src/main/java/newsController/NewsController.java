@@ -1,6 +1,5 @@
 package newsController;
 
-import model.IModel;
 import model.ModelFactory;
 import newsdto.NewsAuthorDTO;
 import newsdto.NewsDescriptionDTO;
