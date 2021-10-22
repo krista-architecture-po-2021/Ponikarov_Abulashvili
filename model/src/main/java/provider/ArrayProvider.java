@@ -1,86 +1,50 @@
 package provider;
 
-import entity.Category;
-import entity.News;
+import dataobject.Category;
+import dataobject.IEntity;
+import dataobject.News;
 
 import java.util.*;
 
 public class ArrayProvider implements IProvider {
-    List<News> newsList;
-    List<Category> categoriesList;
+    Map<String, List<IEntity>> data;
 
     public  ArrayProvider(){
-        newsList = new ArrayList<>();
-        categoriesList = new ArrayList<>();
+        data = new HashMap<>();
     }
 
     @Override
-    public <T> T get(String entityName, int id) {
-        if ("news".equals(entityName)){
-            return (T) getElementById(newsList, id, entityName);
-        }
-        else if ("categories".equals(entityName)){
-            return (T) getElementById(categoriesList, id, entityName);
-        }
-
-        return null;
+    public <T extends IEntity> T get(String entityName, int id) {
+        return (T) getElementById(data.get(entityName), id);
     }
 
     @Override
-    public <T> List<T> getAll(String entityName) {
-        if ("news".equals(entityName)){
-            return (List<T>) newsList;
-        }
-        else if ("categories".equals(entityName)){
-            return (List<T>) categoriesList;
-        }
-
-        return null;
+    public <T extends IEntity> List<T> getAll(String entityName) {
+        return (List<T>) data.get(entityName);
     }
 
     @Override
-    public <T> void add(String entityName, T entity) {
-        if ("news".equals(entityName)){
-            newsList.add((News) entity);
-        }
-        else if ("categories".equals(entityName)){
-            categoriesList.add((Category) entity);
+    public <T extends IEntity> void add(String entityName, T entity) {
+        data.get(entityName).add(entity);
+    }
+
+    @Override
+    public <T extends IEntity> void update(String entityName, int id, T entity) {
+        IEntity curEntity = getElementById(data.get(entityName), id);
+
+        if (curEntity != null) {
+            curEntity.update(entity);
         }
     }
 
     @Override
-    public <T> void update(String entityName, int id, T entity) {
-        if ("news".equals(entityName)){
-            News news = getElementById(newsList, id, entityName);
-
-            if (news != null) {
-                news.setName(((News) entity).getName());
-                news.setContent(((News) entity).getContent());
-            }
-        }
-        else if ("categories".equals(entityName)){
-            Category category = getElementById(categoriesList, id, entityName);
-
-            if (category != null){
-                category.setName(((Category)entity).getName());
-            }
-        }
+    public <T extends IEntity> void delete(String entityName, int id) {
+        data.get(entityName).removeIf(entity -> Objects.equals(entity.getId(), id));
     }
 
-    @Override
-    public void delete(String entityName, int id) {
-        if ("news".equals(entityName)){
-            newsList.removeIf(news -> Objects.equals(news.getId(), id));
-        }
-        else if ("categories".equals(entityName)){
-            categoriesList.removeIf(category -> Objects.equals(category.getId(), id));
-        }
-    }
-
-    private <T> T getElementById(List<T> elements, int id, String entityName){
+    private <T extends IEntity> T getElementById(List<T> elements, int id){
         for (T element: elements){
-            if (("news".equals(entityName) && Objects.equals(((News)element).getId(), id)) ||
-                ("categories".equals(entityName) && Objects.equals(((Category)element).getId(), id))){
+            if (Objects.equals(element.getId(), id)){
                 return element;
             }
         }

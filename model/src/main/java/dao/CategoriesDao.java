@@ -1,6 +1,6 @@
 package dao;
 
-import entity.Category;
+import dataobject.Category;
 import provider.IProvider;
 
 import java.util.List;

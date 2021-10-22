@@ -1,6 +1,6 @@
 package dao;
 
-import entity.News;
+import dataobject.News;
 import provider.IProvider;
 
 import java.util.List;

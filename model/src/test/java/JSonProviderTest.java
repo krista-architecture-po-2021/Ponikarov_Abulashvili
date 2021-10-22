@@ -1,4 +1,4 @@
-import entity.News;
+import dataobject.News;
 import org.junit.Test;
 import provider.JsonProvider;
 

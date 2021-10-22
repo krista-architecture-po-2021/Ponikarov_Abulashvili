@@ -2,8 +2,7 @@ package provider;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import entity.Category;
-import entity.News;
+import dataobject.IEntity;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -12,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class JsonProvider implements IProvider{
+public class JsonProvider implements IProvider {
     ObjectMapper objectMapper;
 
     public JsonProvider(){
@@ -20,23 +19,23 @@ public class JsonProvider implements IProvider{
     }
 
     @Override
-    public <T> T get(String entityName, int id) {
+    public <T extends IEntity> T get(String entityName, int id) {
         List<T> entities = readJson(entityName);
 
         if (entities != null) {
-            return getElementById(entities, id, entityName);
+            return getElementById(entities, id);
         }
 
         return null;
     }
 
     @Override
-    public <T> List<T> getAll(String entityName) {
+    public <T extends IEntity> List<T> getAll(String entityName) {
         return readJson(entityName);
     }
 
     @Override
-    public <T> void add(String entityName, T entity) {
+    public <T extends IEntity> void add(String entityName, T entity) {
         List<T> entities = readJson(entityName);
 
         if (entities == null){
@@ -49,20 +48,32 @@ public class JsonProvider implements IProvider{
     }
 
     @Override
-    public <T> void update(String entityName, int id, T entity) {
+    public <T extends IEntity> void update(String entityName, int id, T dataObject) {
         List<T> entities = readJson(entityName);
 
+        if (entities != null){
+            T entity = getElementById(entities, id);
+
+            if (entity != null){
+                entity.update(dataObject);
+            }
+        }
     }
 
     @Override
-    public void delete(String entityName, int id) {
+    public <T extends IEntity> void delete(String entityName, int id) {
+        List<T> entities = readJson(entityName);
 
+        if (entities != null) {
+            entities.removeIf(entity -> Objects.equals(entity.getId(), id));
+
+            writeJson(entities, entityName);
+        }
     }
 
-    private <T> T getElementById(List<T> elements, int id, String entityName){
+    private <T extends IEntity> T getElementById(List<T> elements, int id){
         for (T element: elements){
-            if (("news".equals(entityName) && Objects.equals(((News)element).getId(), id)) ||
-                    ("categories".equals(entityName) && Objects.equals(((Category)element).getId(), id))){
+            if (Objects.equals(element.getId(), id)){
                 return element;
             }
         }
@@ -70,7 +81,7 @@ public class JsonProvider implements IProvider{
         return null;
     }
 
-    private <T> List<T> readJson(String filePath){
+    private <T extends IEntity> List<T> readJson(String filePath){
         try {
             return objectMapper.readValue(new File(filePath + ".json"), new TypeReference<List<T>>() {});
         } catch (IOException e) {
@@ -80,7 +91,7 @@ public class JsonProvider implements IProvider{
         return null;
     }
 
-    private <T> void writeJson(List<T> entities, String filePath){
+    private <T extends IEntity> void writeJson(List<T> entities, String filePath){
         try (FileWriter fileWriter = new FileWriter(filePath + ".json", false)){
             fileWriter.write(objectMapper.writeValueAsString(entities));
         } catch (IOException e) {
