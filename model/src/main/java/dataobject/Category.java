@@ -1,6 +1,7 @@
 package dataobject;
 
 public class Category implements IEntity {
+    public String type = this.getClass().getSimpleName();
     private int id;
     private String name;
 

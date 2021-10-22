@@ -9,12 +9,12 @@ public class CategoryController implements ICategoryController{
     private Cache cache = Cache.getInstance();
 
     @Override
-    public List<NewsCategory> getCategoryList() {
+    public List<Category> getCategoryList() {
         return cache.getCategories();
     }
 
     @Override
-    public void addCategory(NewsCategory category) {
+    public void addCategory(Category category) {
         cache.addCategory(category);
     }
 
@@ -29,7 +29,7 @@ public class CategoryController implements ICategoryController{
     }
 
     @Override
-    public CategoryWithNewsDTO getCategoryWithNews(List<NewsCategory> categories) {
+    public CategoryWithNewsDTO getCategoryWithNews(List<Category> categories) {
         return null;
     }
 }

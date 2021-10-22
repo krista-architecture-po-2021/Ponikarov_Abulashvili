@@ -16,6 +16,8 @@ public class NewsController implements INewsController {
 
     @Override
     public NewsListDTO getNewsList() {
+        model = ModelFactory.getModel(ModelFactory.JSON);
+
         return null;
     }
 

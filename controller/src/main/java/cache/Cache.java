@@ -1,7 +1,7 @@
 package cache;
 
 
-import categoryController.NewsCategory;
+import categoryController.Category;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,7 +9,7 @@ import java.util.List;
 public class Cache {
     private static Cache INSTANCE;
 
-    private List<NewsCategory> categories;
+    private List<Category> categories;
 
     private Cache() {
         categories = new ArrayList<>();
@@ -27,14 +27,14 @@ public class Cache {
         return INSTANCE;
     }
 
-    public List<NewsCategory> getCategories() {
+    public List<Category> getCategories() {
         return categories;
     }
 
-    public void addCategory(NewsCategory category) {categories.add(category);}
+    public void addCategory(Category category) {categories.add(category);}
 
     public void refreshCategory(Integer id, String newName) {
-        for (NewsCategory category: categories) {
+        for (Category category: categories) {
             if (category.getId().equals(id)) {
                 category.setName(newName);
             }

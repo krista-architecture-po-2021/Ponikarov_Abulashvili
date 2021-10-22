@@ -2,15 +2,15 @@ package categoryController;
 
 import newsController.News;
 
-public class NewsCategory {
+public class Category {
     private Integer id;
     private String name;
 
-    public NewsCategory(){
+    public Category(){
 
     }
 
-    public NewsCategory(Integer id, String name){
+    public Category(Integer id, String name){
         this.id = id;
         this.name = name;
     }

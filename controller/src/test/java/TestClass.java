@@ -1,5 +1,5 @@
 
-import categoryController.NewsCategory;
+import categoryController.Category;
 import facade.NewsService;
 
 import newsController.News;
@@ -14,7 +14,7 @@ public class TestClass {
     public void getCategoryListTest(){
         NewsService newsService = new NewsService();
 
-        List<NewsCategory> category = newsService.getCategoryList();
+        List<Category> category = newsService.getCategoryList();
 
         assertNotNull(category);
     }
@@ -22,8 +22,8 @@ public class TestClass {
     @Test
     public void addCategoryTest(){
         NewsService newsService = new NewsService();
-        newsService.addCategory(new NewsCategory(1, "Category1"));
-        newsService.addCategory(new NewsCategory(2, "Category2"));
+        newsService.addCategory(new Category(1, "Category1"));
+        newsService.addCategory(new Category(2, "Category2"));
 
         assertEquals(2, newsService.getCategoryList().size());
     }
@@ -33,9 +33,9 @@ public class TestClass {
         NewsService newsService = new NewsService();
         newsService.refreshCategory(2, "Category3");
 
-        NewsCategory searchCategory = null;
+        Category searchCategory = null;
 
-        for (NewsCategory category: newsService.getCategoryList()){
+        for (Category category: newsService.getCategoryList()){
             if (category.getName().equals("Category3")){
                 searchCategory = category;
             }

@@ -2,7 +2,7 @@ package facade;
 
 import categoryController.CategoryController;
 import categoryController.ICategoryController;
-import categoryController.NewsCategory;
+import categoryController.Category;
 import newsController.INewsController;
 import newsController.News;
 import newsController.NewsController;
@@ -14,11 +14,11 @@ public class NewsService {
 
     private final INewsController newsController = new NewsController();
 
-    public List<NewsCategory> getCategoryList(){
+    public List<Category> getCategoryList(){
         return categoryController.getCategoryList();
     }
 
-    public void addCategory(NewsCategory category){
+    public void addCategory(Category category){
         categoryController.addCategory(category);
     }
 
