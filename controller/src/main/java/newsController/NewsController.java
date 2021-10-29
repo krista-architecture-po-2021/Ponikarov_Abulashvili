@@ -2,20 +2,17 @@ package newsController;
 
 import model.ModelFactory;
 import newsdto.NewsAuthorDTO;
-import newsdto.NewsDescriptionDTO;
 import newsdto.NewsListDTO;
 import newsdto.SportNewsTitleDTO;
 
 import javax.inject.Inject;
-import java.util.ArrayList;
-import java.util.List;
 
 public class NewsController implements INewsController {
     @Inject
     ModelFactory model;
 
     @Override
-    public NewsListDTO getNewsList() {
+    public NewsListDTO getNewsListDTO() {
         model = ModelFactory.getModel(ModelFactory.JSON);
 
         return null;
@@ -32,27 +29,12 @@ public class NewsController implements INewsController {
     }
 
     @Override
-    public void refreshNews(long id, String newName) {
+    public void updateNews(long id, String newName) {
 
     }
 
     @Override
     public void deleteNews(long id) {
 
-    }
-
-    @Override
-    public NewsDescriptionDTO getNewsDescription(News news) {
-        return null;
-    }
-
-    @Override
-    public NewsAuthorDTO getNewsAuthor(News news) {
-        return null;
-    }
-
-    @Override
-    public SportNewsTitleDTO getSportNewsTitle(News news) {
-        return null;
     }
 }

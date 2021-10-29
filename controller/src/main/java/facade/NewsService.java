@@ -14,6 +14,7 @@ public class NewsService {
 
     private final INewsController newsController = new NewsController();
 
+
     public List<Category> getCategoryList(){
         return categoryController.getCategoryList();
     }
@@ -38,15 +39,19 @@ public class NewsService {
         return newsController.getNewsById(id);
     }
 
-    public void addNews(News news){
+    public void addNews(News news) {
         newsController.addNews(news);
     }
 
     public void refreshNews(Integer id, String newName){
-        newsController.refreshNews(id, newName);
+        newsController.updateNews(id, newName);
     }
 
     public void deleteNews(Integer id){
         newsController.deleteNews(id);
+    }
+
+    private void initNewsController() {
+
     }
 }
