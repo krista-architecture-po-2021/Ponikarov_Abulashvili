@@ -1,23 +1,14 @@
-package newsController;
+package dto;
 
 import java.util.Date;
 
-public class News {
+public class NewsDTO {
     private Integer id;
     private String name;
     private Date date;
     private String author;
     private String content;
     private String categoryName;
-
-    public News(){
-
-    }
-
-    public News(Integer id, String name){
-        this.id = id;
-        this.name = name;
-    }
 
     public Integer getId() {
         return id;

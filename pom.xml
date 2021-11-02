@@ -13,6 +13,8 @@
         <module>model</module>
         <module>api</module>
         <module>controller</module>
+        <module>view</module>
+        <module>main</module>
     </modules>
     <dependencies>
         <dependency>

@@ -1,39 +1,55 @@
 package decorator;
 
+import converter.NewsDTOConverter;
+import dto.NewsDTO;
+import dto.NewsTitleDTO;
 import newsController.INewsController;
-import newsController.News;
-import newsdto.NewsListDTO;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
 public class AuthorNewsDecorator extends NewsDecorator {
-    private String author;
+    private List<String> selectedAuthors;
 
-    public AuthorNewsDecorator(INewsController newsController, String author) {
+    public AuthorNewsDecorator(INewsController newsController, List<String> selectedAuthors) {
         super(newsController);
-
-        this.author = author;
+        this.selectedAuthors = selectedAuthors;
     }
 
     @Override
-    public NewsListDTO getNewsListDTO() {
-        List<News> actualNews = new ArrayList<>();
+    public List<NewsDTO> getNewsList() {
+        List<NewsDTO> actualNews = new ArrayList<>();
 
-        for (News news: super.getNewsListDTO().getNewsList()) {
-            if (Objects.equals(news.getAuthor(), author)) {
-                actualNews.add(news);
+        for (NewsDTO newsDTO: super.getNewsList()) {
+            if (newsWroteSelectedAuthors(newsDTO, selectedAuthors)) {
+                actualNews.add(newsDTO);
             }
         }
 
-        return new NewsListDTO(actualNews);
+        return actualNews;
     }
 
     @Override
-    public News getNewsById(long id) {
-        News news = super.getNewsById(id);
+    public List<NewsTitleDTO> getNewsTitleList() {
+        return NewsDTOConverter.createNewsTitleDTOList(
+                NewsDTOConverter.createNewsBOList(getNewsList()));
+    }
 
-        return Objects.equals(news.getAuthor(), author) ? news : null;
+    @Override
+    public NewsDTO getNewsById(int id) {
+        NewsDTO newsDTO = super.getNewsById(id);
+
+        return newsWroteSelectedAuthors(newsDTO, selectedAuthors) ? newsDTO : null;
+    }
+
+    private boolean newsWroteSelectedAuthors(NewsDTO newsDTO, List<String> selectedAuthors) {
+        for (String author: selectedAuthors) {
+            if (!newsDTO.getAuthor().contains(author)) {
+                return false;
+            }
+        }
+
+        return true;
     }
 }

@@ -24,8 +24,8 @@ public class NewsDao implements Dao<News> {
     }
 
     @Override
-    public void add(News category) {
-        provider.add(entityName, category);
+    public void add(News news) {
+        provider.add(entityName, news);
     }
 
     @Override

@@ -1,35 +1,31 @@
 package categoryController;
 
 import cache.Cache;
-import categorydto.CategoryWithNewsDTO;
+import converter.CategoriesDTOConverter;
+import dto.CategoryDTO;
 
 import java.util.List;
 
 public class CategoryController implements ICategoryController{
-    private Cache cache = Cache.getInstance();
+    private final Cache cache = Cache.getInstance();
 
     @Override
-    public List<Category> getCategoryList() {
-        return cache.getCategories();
+    public List<CategoryDTO> getCategoryList() {
+        return CategoriesDTOConverter.createCategoriesDTOList(cache.getCategories());
     }
 
     @Override
-    public void addCategory(Category category) {
-        cache.addCategory(category);
+    public void addCategory(CategoryDTO categoryDTO){
+        cache.addCategory(CategoriesDTOConverter.createCategoryBO(categoryDTO));
     }
 
     @Override
-    public void refreshCategory(Integer id, String newName) {
-        cache.refreshCategory(id, newName);
+    public void updateCategory(Integer id, CategoryDTO categoryDTO) {
+        cache.updateCategory(id, CategoriesDTOConverter.createCategoryBO(categoryDTO));
     }
 
     @Override
     public void deleteCategory(Integer id) {
         cache.deleteCategory(id);
-    }
-
-    @Override
-    public CategoryWithNewsDTO getCategoryWithNews(List<Category> categories) {
-        return null;
     }
 }

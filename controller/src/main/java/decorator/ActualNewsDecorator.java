@@ -1,12 +1,14 @@
 package decorator;
 
+import converter.NewsDTOConverter;
+import dto.NewsDTO;
+import dto.NewsTitleDTO;
 import newsController.INewsController;
-import newsController.News;
-import newsdto.NewsListDTO;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 public class ActualNewsDecorator extends NewsDecorator {
     private Date actualDate;
@@ -18,22 +20,28 @@ public class ActualNewsDecorator extends NewsDecorator {
     }
 
     @Override
-    public NewsListDTO getNewsListDTO() {
-        List<News> actualNews = new ArrayList<>();
+    public List<NewsDTO> getNewsList() {
+        List<NewsDTO> actualNews = new ArrayList<>();
 
-        for (News news: super.getNewsListDTO().getNewsList()) {
-            if (news.getDate().after(actualDate)) {
-                actualNews.add(news);
+        for (NewsDTO newsDTO: super.getNewsList()) {
+            if (Objects.equals(newsDTO.getDate(), actualDate)) {
+                actualNews.add(newsDTO);
             }
         }
 
-        return new NewsListDTO(actualNews);
+        return actualNews;
     }
 
     @Override
-    public News getNewsById(long id) {
-        News news = super.getNewsById(id);
+    public List<NewsTitleDTO> getNewsTitleList() {
+        return NewsDTOConverter.createNewsTitleDTOList(
+                NewsDTOConverter.createNewsBOList(getNewsList()));
+    }
 
-        return news.getDate().after(actualDate) ? news : null;
+    @Override
+    public NewsDTO getNewsById(int id) {
+        NewsDTO newsDTO = super.getNewsById(id);
+
+        return Objects.equals(newsDTO.getDate(), actualDate) ? newsDTO : null;
     }
 }

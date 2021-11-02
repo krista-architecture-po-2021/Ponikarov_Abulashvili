@@ -1,8 +1,11 @@
 package decorator;
 
+import converter.NewsDTOConverter;
+import dto.NewsDTO;
+import dto.NewsTitleDTO;
 import newsController.INewsController;
-import newsController.News;
-import newsdto.NewsListDTO;
+
+import java.util.List;
 
 public abstract class NewsDecorator implements INewsController {
     protected INewsController newsController;
@@ -12,27 +15,32 @@ public abstract class NewsDecorator implements INewsController {
     }
 
     @Override
-    public NewsListDTO getNewsListDTO() {
-        return newsController.getNewsListDTO();
+    public List<NewsDTO> getNewsList() {
+        return newsController.getNewsList();
     }
 
     @Override
-    public News getNewsById(long id) {
+    public NewsDTO getNewsById(int id) {
         return newsController.getNewsById(id);
     }
 
     @Override
-    public void addNews(News news) {
-        newsController.addNews(news);
+    public List<NewsTitleDTO> getNewsTitleList() {
+        return newsController.getNewsTitleList();
     }
 
     @Override
-    public void updateNews(long id, String newName) {
-        newsController.updateNews(id, newName);
+    public void addNews(NewsDTO newsDTO) {
+        newsController.addNews(newsDTO);
     }
 
     @Override
-    public void deleteNews(long id) {
+    public void updateNews(int id, NewsDTO newsDTO) {
+        newsController.updateNews(id, newsDTO);
+    }
+
+    @Override
+    public void deleteNews(int id) {
         newsController.deleteNews(id);
     }
 }

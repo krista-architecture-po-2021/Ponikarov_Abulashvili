@@ -1,40 +1,54 @@
 package newsController;
 
+import converter.NewsBOConverter;
+import converter.NewsDTOConverter;
+import dto.NewsDTO;
+import dto.NewsTitleDTO;
 import model.ModelFactory;
-import newsdto.NewsAuthorDTO;
-import newsdto.NewsListDTO;
-import newsdto.SportNewsTitleDTO;
 
-import javax.inject.Inject;
+import java.util.List;
 
 public class NewsController implements INewsController {
-    @Inject
-    ModelFactory model;
+    private final ModelFactory dataProvider;
+    private final NewsBOConverter boConverter;
 
-    @Override
-    public NewsListDTO getNewsListDTO() {
-        model = ModelFactory.getModel(ModelFactory.JSON);
-
-        return null;
+    public NewsController() {
+        dataProvider = ModelFactory.getModel(ModelFactory.JSON);
+        boConverter = new NewsBOConverter(dataProvider);
     }
 
     @Override
-    public News getNewsById(long id) {
-        return null;
+    public List<NewsDTO> getNewsList() {
+        return NewsDTOConverter.createNewsDTOList(
+                boConverter.createNewsBOList(dataProvider.getNewsDao().getAll()));
     }
 
     @Override
-    public void addNews(News addNews) {
-
+    public NewsDTO getNewsById(int id) {
+        return NewsDTOConverter.createNewsDTO(boConverter.createNewsBO(dataProvider.getNewsDao().get(id)));
     }
 
     @Override
-    public void updateNews(long id, String newName) {
-
+    public List<NewsTitleDTO> getNewsTitleList() {
+        return NewsDTOConverter.createNewsTitleDTOList(
+                boConverter.createNewsBOList(dataProvider.getNewsDao().getAll()));
     }
 
     @Override
-    public void deleteNews(long id) {
-
+    public void addNews(NewsDTO newsDTO) {
+        dataProvider.getNewsDao().add(boConverter.createNewsDO(NewsDTOConverter.createNewsBO(newsDTO)));
     }
+
+    @Override
+    public void updateNews(int id, NewsDTO newsDTO) {
+        dataProvider.getNewsDao().
+                update(id, boConverter.createNewsDO(NewsDTOConverter.createNewsBO(newsDTO)));
+    }
+
+    @Override
+    public void deleteNews(int id) {
+        dataProvider.getNewsDao().delete(id);
+    }
+
+
 }

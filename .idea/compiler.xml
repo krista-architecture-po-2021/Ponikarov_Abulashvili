@@ -8,6 +8,8 @@
         <outputRelativeToContentRoot value="true" />
         <module name="model" />
         <module name="controller" />
+        <module name="view" />
+        <module name="main" />
         <module name="controller1" />
       </profile>
     </annotationProcessing>

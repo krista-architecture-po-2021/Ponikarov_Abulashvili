@@ -1,40 +1,55 @@
 package decorator;
 
+import converter.NewsDTOConverter;
+import dto.NewsDTO;
+import dto.NewsTitleDTO;
 import newsController.INewsController;
-import newsController.News;
-import newsdto.NewsAuthorDTO;
-import newsdto.NewsListDTO;
-import newsdto.SportNewsTitleDTO;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class PositiveNewsDecorator extends NewsDecorator {
-    private String keyWord;
+    private List<String> badWords;
 
-    public PositiveNewsDecorator(INewsController newsController, String keyWord) {
+    public PositiveNewsDecorator(INewsController newsController, List<String> badWords) {
         super(newsController);
 
-        this.keyWord = keyWord;
+        this.badWords = badWords;
     }
 
     @Override
-    public NewsListDTO getNewsListDTO() {
-        List<News> actualNews = new ArrayList<>();
+    public List<NewsDTO> getNewsList() {
+        List<NewsDTO> actualNews = new ArrayList<>();
 
-        for (News news: super.getNewsListDTO().getNewsList()) {
-            if (!news.getContent().contains(keyWord)) {
-                actualNews.add(news);
+        for (NewsDTO newsDTO: super.getNewsList()) {
+            if (!newsContainBadWords(newsDTO, badWords)) {
+                actualNews.add(newsDTO);
             }
         }
 
-        return new NewsListDTO(actualNews);
+        return actualNews;
     }
 
     @Override
-    public News getNewsById(long id) {
-        News news = super.getNewsById(id);
+    public List<NewsTitleDTO> getNewsTitleList() {
+        return NewsDTOConverter.createNewsTitleDTOList(
+                NewsDTOConverter.createNewsBOList(getNewsList()));
+    }
 
-        return news.getContent().contains(keyWord) ? null : news;
+    @Override
+    public NewsDTO getNewsById(int id) {
+        NewsDTO newsDTO = super.getNewsById(id);
+
+        return newsContainBadWords(newsDTO, badWords) ? null : newsDTO;
+    }
+
+    private boolean newsContainBadWords(NewsDTO newsDTO, List<String> badWords) {
+        for (String badWord: badWords) {
+            if (newsDTO.getContent().contains(badWord)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }

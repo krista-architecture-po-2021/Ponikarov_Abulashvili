@@ -1,20 +1,35 @@
 package dataobject;
 
+import java.util.Date;
+
 public class News implements IEntity {
     public String type = this.getClass().getSimpleName();
-    private int id;
+    private Integer id;
     private String name;
+    private Date date;
+    private String author;
     private String content;
+    private int categoryId;
 
     public News() {
 
     }
 
-    public News(int id, String name, String content) {
+    public News(Integer id, String name) {
         this.id = id;
         this.name = name;
-        this.content = content;
     }
+
+    @Override
+    public int getId() {
+        return id;
+    }
+
+    @Override
+    public void setId(int id) {
+        this.id = id;
+    }
+
     @Override
     public String getName() {
         return name;
@@ -30,20 +45,25 @@ public class News implements IEntity {
         this.setName(entity.getName());
 
         if (entity instanceof News) {
-            this.setContent(((News)entity).getContent());
+            this.setContent(((News) entity).getContent());
         }
     }
 
-    @Override
-    public int getId() {
-        return id;
+    public Date getDate() {
+        return date;
     }
 
-    @Override
-    public void setId(int id) {
-        this.id = id;
+    public void setDate(Date date) {
+        this.date = date;
     }
 
+    public String getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(String author) {
+        this.author = author;
+    }
 
     public String getContent() {
         return content;
@@ -51,5 +71,13 @@ public class News implements IEntity {
 
     public void setContent(String content) {
         this.content = content;
+    }
+
+    public int getCategoryId() {
+        return categoryId;
+    }
+
+    public void setCategoryId(int categoryId) {
+        this.categoryId = categoryId;
     }
 }
