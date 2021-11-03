@@ -19,7 +19,24 @@ public class AdminRest {
     }
 
     @DELETE
-    @Path("/{id}")
+    @Path("/categories/{id}")
+    @Produces(APPLICATION_JSON)
+    public void deleteCategories(@PathParam("id") int deleteCategoryId) {
+        facadeController = new FacadeController(null, null, null);
+        facadeController.deleteCategory(deleteCategoryId);
+    }
+
+    @GET
+    @Path("/news")
+    @Produces(APPLICATION_JSON)
+    public Response getAllNews() {
+        facadeController = new FacadeController(null, null, null);
+
+        return Response.ok(facadeController.getNewsList()).build();
+    }
+
+    @DELETE
+    @Path("/news/{id}")
     public void deleteNews(@PathParam("id") int deleteNewsId) {
         facadeController = new FacadeController(null, null, null);
         facadeController.deleteNews(deleteNewsId);

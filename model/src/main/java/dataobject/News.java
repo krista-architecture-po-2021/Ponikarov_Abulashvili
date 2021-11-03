@@ -46,6 +46,9 @@ public class News implements IEntity {
 
         if (entity instanceof News) {
             this.setContent(((News) entity).getContent());
+            this.setAuthor(((News) entity).getAuthor());
+            this.setCategoryId(((News) entity).getCategoryId());
+            this.setDate(((News) entity).getDate());
         }
     }
 

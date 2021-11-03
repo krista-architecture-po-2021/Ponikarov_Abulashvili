@@ -56,6 +56,8 @@ public class JsonProvider implements IProvider {
 
             if (entity != null){
                 entity.update(dataObject);
+
+                writeJson(entities, entityName);
             }
         }
     }
